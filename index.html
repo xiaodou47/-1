@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小豆的个人空间</title>
+    <link rel="stylesheet" href="wish.css">
+    <style>
+        /* 全局样式 */
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            height: 2000px;
+            overflow-x: hidden;
+            font-family: 'Microsoft YaHei', sans-serif;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* 首页容器 */
+        .shell {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 头部区域 */
+        header {
+            width: 100%;
+            height: 700px;
+            overflow: hidden;
+            clip-path: polygon(0 0, 100% 0%, 100% 100%, 0 100%);
+            transition: clip-path 0.5s ease;
+            position: relative;
+        }
+
+        .header-img {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+            background: url('星河.jpg'); /* 头部背景图片 */
+            background-size: cover;
+            background-position: center;
+            transform: scale(1);
+            transition: transform 0.5s ease;
+        }
+
+        /* 首页板块 */
+        #home {
+            background: url('星河2.jpg'); /* 首页背景图片 */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; /* 固定背景 */
+        }
+
+        /* 主内容区域 */
+        .main {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            margin-top: 100px;
+        }
+
+        .main h2 {
+            font-size: 50px;
+            margin-bottom: 40px;
+            font-family: 'Georgia', serif;
+        }
+
+        .main span {
+            padding: 0 100px;
+            font-size: 30px;
+            text-align: center;
+        }
+
+        /* 个人信息卡片 */
+        .profile-card {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            width: 90%;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #ab67d2;
+            margin-bottom: 1rem;
+        }
+
+        .profile-card h2 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-card p {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+
+        /* 导航栏 */
+        #nav {
+            position: relative;
+            border: none;
+            border-radius: 10em;
+            display: flex;
+            list-style: none;
+            background: #f5f5f5;
+            box-shadow: 20px 40px 40px #00000033;
+            padding: 10px;
+            margin: 20px auto;
+            width: fit-content;
+        }
+
+        #nav li a {
+            position: relative;
+            padding: 15px 50px;
+            font: 500 24px '优设标题黑';
+            border: none;
+            outline: none;
+            color: rgb(70, 100, 180);
+            display: inline-block;
+            text-decoration: none;
+            z-index: 3;
+        }
+
+        .slide1,
+        .slide2 {
+            position: absolute;
+            display: inline-block;
+            height: 60px;
+            border-radius: 10em;
+            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1.05);
+        }
+
+        .slide1 {
+            background-color: rgb(170, 190, 255);
+            z-index: 2;
+        }
+
+        .slide2 {
+            opacity: 0;
+            background-color: rgba(170, 190, 255, .5);
+            z-index: 1;
+            box-shadow: 0 0 20px #ffffffaa inset;
+        }
+
+        .squeeze {
+            transform: scale(0.9);
+        }
+
+        /* 兴趣板块 */
+        #hobby .hobby-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        #hobby .hobby-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            aspect-ratio: 1 / 1;
+        }
+
+        #hobby .hobby-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        #hobby .hobby-link {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: #e1a1e1;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        #hobby .hobby-link:hover {
+            background: #bb6dd5;
+        }
+
+        /* 愿望板块 */
+        #wish .wish-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        #wish .wish-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            aspect-ratio: 16 / 9;
+        }
+
+        #wish .wish-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        /* 留言板块 */
+        .note-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+            padding: 1rem;
+        }
+
+        .note {
+            background: #fff9c4;
+            padding: 1.5rem;
+            border-radius: 8px;
+            position: relative;
+            transform: rotate(-1deg);
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            min-height: 150px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .note:nth-child(even) {
+            background: #e3f2fd;
+            transform: rotate(2deg);
+        }
+
+        .note:hover {
+            transform: rotate(0deg) scale(1.05);
+            z-index: 2;
+        }
+
+        .note-content {
+            flex: 1;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #efecec;
+        }
+
+        .note-time {
+            font-size: 0.8rem;
+            color: #faccf6;
+            text-align: right;
+            margin-top: 1rem;
+            border-top: 1px dashed #ddd;
+            padding-top: 0.5rem;
+        }
+
+        .message-input-container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 2rem auto;
+            max-width: 800px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        #messageInput {
+            width: 100%;
+            height: 120px;
+            padding: 1rem;
+            border: 2px solid #9c4797;
+            border-radius: 10px;
+            font-family: 'Microsoft YaHei';
+            font-size: 1rem;
+            resize: vertical;
+            transition: all 0.3s ease;
+        }
+
+        #messageInput:focus {
+            border-color: #9e47a1;
+            box-shadow: 0 0 8px rgba(102, 187, 106, 0.3);
+        }
+
+        /* 响应式布局 */
+        @media (max-width: 768px) {
+            .main h2 {
+                font-size: 40px;
+            }
+
+            .main span {
+                font-size: 24px;
+                padding: 0 20px;
+            }
+
+            .profile-card {
+                padding: 1rem;
+            }
+
+            .profile-card h2 {
+                font-size: 2rem;
+            }
+
+            .profile-card p {
+                font-size: 1rem;
+            }
+
+            nav {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="shell">
+        <!-- 头部区域 -->
+        <header>
+            <div class="header-img"></div> <!-- 头部背景图片 -->
+        </header>
+
+        <!-- 导航栏 -->
+        <ul id="nav">
+            <li class="slide1"></li>
+            <li class="slide2"></li>
+            <li><a href="#" onclick="showPage('home')">🏠 首页</a></li>
+            <li><a href="#" onclick="showPage('hobby')">🎨 兴趣</a></li>
+            <li><a href="#" onclick="showPage('wish')">🌟 愿望</a></li>
+            <li><a href="#" onclick="showPage('message')">💌 留言</a></li>
+        </ul>
+
+        <!-- 首页 -->
+        <div id="home" class="page">
+            <div class="main">
+                <div class="profile-card">
+                    <img src="屏幕截图 2025-03-18 022034.jpg" alt="头像" class="avatar">
+                    <h2>豆思琪</h2>
+                    <p>📧 1263339077@qq.com</p>
+                    <p>🎓 国际中文教育 平平无奇的大三在读学生</p>
+                    <p style="color: #666;">"世界在下沉，我在学游泳"</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 兴趣 -->
+        <div id="hobby" class="page" style="display: none;">
+            <div class="masonry">
+        <!-- 19个不同高度的图片空位 -->
+        <div class="item">
+            <img src="其他手工.jpg" alt="兴趣图片1" style="height:420px">
+        </div>
+        <div class="item">
+            <img src="写春联.jpg" alt="兴趣图片2" style="height:380px">
+        </div>
+        <div class="item">
+            <img src="古琴.jpg" alt="兴趣图片3" style="height:460px">
+        </div>
+        <div class="item">
+            <img src="古诗词.jpg" alt="兴趣图片4" style="height:340px">
+        </div>
+        <div class="item">
+            <img src="国画.jpg" alt="兴趣图片5" style="height:400px">
+        </div>
+        <div class="item">
+            <img src="国画2.jpg" alt="兴趣图片6" style="height:480px">
+        </div>
+        <div class="item">
+            <img src="扭扭棒.jpg" alt="兴趣图片7" style="height:360px">
+        </div>
+        <div class="item">
+            <img src="扭扭棒小动物.jpg" alt="兴趣图片8" style="height:440px">
+        </div>
+        <div class="item">
+            <img src="扭扭棒花.jpg" alt="兴趣图片9" style="height:390px">
+        </div>
+        <div class="item">
+            <img src="旅游1.jpg" alt="兴趣图片10" style="height:410px">
+        </div>
+        <div class="item">
+            <img src="水彩画.jpg" alt="兴趣图片11" style="height:370px">
+        </div>
+        <div class="item">
+            <img src="油画棒.jpg" alt="兴趣图片12" style="height:430px">
+        </div>
+        <div class="item">
+            <img src="旅游2.jpg" alt="兴趣图片13" style="height:350px">
+        </div>
+        <div class="item">
+            <img src="花草.jpg" alt="兴趣图片14" style="height:450px">
+        </div>
+        <div class="item">
+            <img src="行书.jpg" alt="兴趣图片15" style="height:380px">
+        </div>
+        <div class="item">
+            <img src="非遗.jpg" alt="兴趣图片16" style="height:420px">
+        </div>
+        <div class="item">
+            <img src="旅游3.jpg" alt="兴趣图片17" style="height:390px">
+        </div>
+        <div class="item">
+            <img src="钩针.jpg" alt="兴趣图片18" style="height:410px">
+        </div>
+        <div class="item">
+            <img src="豆思琪书法.jpg" alt="兴趣图片19" style="height:440px">
+        </div>
+    </div>
+</div>
+        <!-- 愿望 -->
+    <div id="wish" class="page" style="display: none;">
+    <div class="wish-grid">
+        <!-- 卡片1 - 国际中文教师 -->
+        <div class="wish-card">
+            <div class="wish-item">
+                <img src="国际中文教师.jpg" alt="国际中文教师" class="wish-img">
+            </div>
+            <h1>国际中文教师</h1>
+            <h2>🔮中文魔法师🔮</h2>
+            <p>语言是沟通世界的桥梁。</p>
+        </div>
+        
+        <!-- 卡片2 - 世界和平 -->
+        <div class="wish-card">
+            <div class="wish-item">
+                <img src="世界和平.jpg" alt="世界和平" class="wish-img">
+            </div>
+            <h1>世界和平</h1>
+            <h2>🕊️和平万岁🕊️</h2>
+            <p>河清海晏，时和岁丰</p>
+        </div>
+        
+         <!-- 卡片3 - 环游世界 -->
+         <div class="wish-card">
+            <div class="wish-item">
+                <img src="环游世界.jpg" alt="环游世界" class="wish-img">
+            </div>
+            <h1>环游世界</h1>
+            <h2>🎈旅游🎈</h2>
+            <p>出发是最有意义的事。</p>
+        </div>
+ 
+       <!-- 新增视频卡片（占满整个卡片区域） -->
+       <div class="wish-card wish-video">
+        <video controls poster="旅游4.jpg" class="fullsize-video">
+            <source src="旅游剪影.mp4" type="video/mp4">
+            您的浏览器不支持HTML5视频
+        </video>
+        <div class="video-caption">
+            <h1>愿望日记</h1>
+            <h2>📹 视频记录</h2>
+            <p>用影像记录我的梦想轨迹</p>
+        </div>
+    </div>
+</div>
+</div>
+</style>
+        <!-- 留言 -->
+        <div id="message" class="page" style="display: none;">
+            <div class="note-container"></div>
+            <div class="message-input-container">
+                <textarea 
+                    id="messageInput" 
+                    placeholder="写下你的祝福...(支持多行输入，最多200字)"
+                    maxlength="200"
+                ></textarea>
+                <div style="text-align: center; margin-top: 1rem;">
+                    <button class="nav-btn" onclick="createNote()">发布留言</button>
+                    <div style="color: #666; font-size: 0.9rem; margin-top: 0.5rem;">
+                        已输入 <span id="charCount">0</span>/200 字
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        // 导航栏滑动效果
+        $("#nav a").on("click", function () {
+            var position = $(this).parent().position();
+            var width = $(this).parent().width();
+            $("#nav .slide1").css({ opacity: 1, left: +position.left, width: width });
+        });
+        $("#nav a").on("mouseover", function () {
+            var position = $(this).parent().position();
+            var width = $(this).parent().width();
+            $("#nav .slide2").css({ opacity: 1, left: +position.left, width: width }).addClass("squeeze");
+        });
+        $("#nav a").on("mouseout", function () {
+            $("#nav .slide2").css({ opacity: 0 }).removeClass("squeeze");
+        });
+        var currentWidth = $("#nav li:nth-of-type(3) a").parent("li").width();
+        var current = $("li:nth-of-type(3) a").position();
+        $("#nav .slide1").css({ left: +current.left, width: currentWidth });
+
+        // 页面切换
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
+            document.getElementById(pageId).style.display = 'block';
+        }
+
+        // 留言功能
+        function createNote() {
+            const text = document.getElementById('messageInput').value.trim();
+            if (!text) {
+                alert('留言内容不能为空哦~');
+                return;
+            }
+
+            const note = document.createElement('div');
+            note.className = 'note';
+            note.innerHTML = `
+                <div class="note-content">${text.replace(/\n/g, '<br>')}</div>
+                <div class="note-time">${new Date().toLocaleString()}</div>
+            `;
+
+            const rotate = Math.random() * 6 - 3;
+            note.style.transform = `rotate(${rotate}deg)`;
+            document.querySelector('.note-container').prepend(note);
+            document.getElementById('messageInput').value = '';
+            updateCharCount(0);
+            alert('谢谢您，祝您一直幸福！🌸');
+        }
+
+        // 实时字数统计
+        document.getElementById('messageInput').addEventListener('input', function() {
+            updateCharCount(this.value.length);
+        });
+
+        function updateCharCount(length) {
+            document.getElementById('charCount').textContent = length;
+            document.getElementById('charCount').style.color = length >= 200 ? '#ff4444' : '#666';
+        }
+
+        // 滚动交互效果
+        const header = document.querySelector('header');
+        const img = document.querySelector('.header-img');
+        let scrollDistance = 0;
+        let requestId = null;
+
+        function updateHeaderClipPath() {
+            const clipPathValue = `polygon(0 0, 100% 0%, 100% ${(scrollDistance <= 600) ? 100 - ((scrollDistance / 600) * 60) : 75}%, 0 100%)`;
+            header.style.clipPath = clipPathValue;
+            const scaleValue = 1 + ((scrollDistance / 600) * 1);
+            img.style.transform = `scale(${scaleValue})`;
+        }
+
+        function scrollHandler(event) {
+            if (event.deltaY < 0) {
+                scrollDistance = Math.max(0, scrollDistance + event.deltaY);
+            } else {
+                scrollDistance = Math.min(600, scrollDistance + event.deltaY);
+            }
+            if (!requestId) {
+                requestId = window.requestAnimationFrame(() => {
+                    updateHeaderClipPath();
+                    requestId = null;
+                });
+            }
+        }
+
+        window.addEventListener('wheel', scrollHandler);
+    </script>
+</body>
+</html>
+<!-- 在留言板块的现有HTML结构保持不变 -->
+<div id="message" class="page" style="display: none;">
+  <div class="note-container"></div>
+  <div class="message-input-container">
+    <!-- 原有表单元素保持不变 -->
+  </div>
+</div>
+
+<style>
+/* 修改现有留言板样式 */
+.note-container {
+  background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
+  padding: 2rem;
+  border-radius: 15px;
+  margin: 2rem auto;
+  max-width: 1000px;
+}
+
+.note {
+  background: rgba(255, 255, 255, 0.9);
+  border: 3px solid transparent;
+  border-radius: 10px;
+  position: relative;
+  padding: 1.5rem;
+  margin: 1rem;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.note::before {
+  content: '';
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  right: -3px;
+  bottom: -3px;
+  background: linear-gradient(45deg, #9d50bb, #6e48aa);
+  border-radius: 12px;
+  z-index: -1;
+}
+
+.note:nth-child(even) {
+  transform: rotate(2deg);
+  background: rgba(245, 230, 255, 0.9);
+}
+
+.note:hover {
+  transform: rotate(0deg) scale(1.05);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+}
+
+/* 添加背景图案 */
+body {
+ background: 
+  linear-gradient(rgba(147, 112, 219, 0.15), 
+  #e6e6fa),  /* 备用浅紫色 */
+  url('images/渐变背景.jpg')
+}
+/* 修改输入框样式 */
+.message-input-container {
+  background: rgba(255, 255, 255, 0.85);
+  border: 2px solid #9c27b0;
+  border-radius: 12px;
+}
+
+#messageInput {
+  border-color: #ba68c8;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+#messageInput:focus {
+  border-color: #9c27b0;
+  box-shadow: 0 0 10px rgba(156, 39, 176, 0.3);
+}
+
+/* 按钮样式更新 */
+.nav-btn {
+  background: linear-gradient(45deg, #9c27b0, #6a1b9a);
+  color: white !important;
+  border: none;
+  padding: 10px 25px;
+  border-radius: 25px;
+  transition: all 0.3s ease;
+}
+
+.nav-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 5px 15px rgba(156, 39, 176, 0.4);
+}
+</style>
+<!-- 在body结束前添加 -->
+<div class="music-player">
+    <audio id="bgm">
+        <source src="卡农.mp3" type="audio/mpeg">
+    </audio>
+    <div class="music-btn">🎵</div>
+</div>
+
+<style>
+.music-player {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 1000;
+}
+
+.music-btn {
+    width: 50px;
+    height: 50px;
+    background: rgba(255,153,230,0.9); /* 始终粉色背景 */
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 28px;
+    color: white;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    transition: all 0.3s;
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    30% { transform: translateY(-10px) rotate(10deg); }
+    60% { transform: translateY(5px) rotate(-10deg); }
+}
+
+.music-btn:hover {
+    transform: scale(1.1);
+    background: rgba(255,102,217,0.9); /* 悬停深粉色 */
+}
+
+.music-btn.playing {
+    animation: pulse 0.8s ease infinite;
+}
+
+@keyframes pulse {
+    50% { transform: scale(1.1); }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const btn = document.querySelector('.music-btn');
+    const audio = document.getElementById('bgm');
+    let isPlaying = false;
+
+    btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        isPlaying = !isPlaying;
+        isPlaying ? audio.play() : audio.pause();
+        btn.classList.toggle('playing', isPlaying);
+        btn.textContent = isPlaying ? "⏸" : "🎵"; 
+        // 保持背景颜色始终不变，仅改变图标和动画
+    });
+
+    audio.addEventListener('ended', () => {
+        audio.currentTime = 0;
+        audio.play();
+    });
+});
+</script>
+

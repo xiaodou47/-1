@@ -1,0 +1,323 @@
+<style>
+/* 愿望板块样式 */
+#wish.page {
+    display: none; /* 初始隐藏 */
+    width: 100%;
+    padding: 40px 20px;
+    background: linear-gradient(200deg, #789bb9, #821aa4);
+}
+
+.wish-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* 卡片容器 */
+.wish-card {
+    position: relative;
+    width: 300px;
+    height: 450px;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 0 30px rgba(193, 106, 215, 0.723);
+}
+
+/* 图片默认占满整个卡片 */
+.wish-item {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transition: all 0.5s ease;
+    z-index: 2;
+}
+
+.wish-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* 文字内容默认隐藏 */
+.wish-card h1,
+.wish-card h2,
+.wish-card p {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    color: rgb(44, 176, 156);
+    opacity: 0;
+    transition: all 0.5s ease;
+    z-index: 1;
+    padding: 0 20px;
+    box-sizing: border-box;
+    text-shadow: 1px 1px 3px rgba(248, 229, 246, 0.8);
+}
+
+.wish-card h1 {
+    top: 50px;
+    font-size: 24px;
+}
+
+.wish-card h2 {
+    top: 100px;
+    font-size: 18px;
+}
+
+.wish-card p {
+    top: 150px;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+/* 悬停效果 */
+.wish-card:hover .wish-item {
+    top: 30px;
+    left: calc(50% - 60px);
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    box-shadow: 0 0 20px rgba(228, 19, 166, 0.8);
+}
+
+.wish-card:hover h1,
+.wish-card:hover h2,
+.wish-card:hover p {
+    opacity: 1;
+}
+
+/* 文字显示时的位置调整 */
+.wish-card:hover h1 { top: 170px; }
+.wish-card:hover h2 { top: 220px; }
+.wish-card:hover p { top: 260px; }
+</style>
+/* 酷炫霓虹灯故障效果 - 仅作用于留言板发布按钮 */
+.message-input-container .nav-btn {
+    /* 基础样式重置 */
+    position: relative;
+    padding: 12px 30px;
+    margin: 15px auto;
+    background: transparent !important;
+    border: none !important;
+    color: white !important;
+    font: bold 16px 'Microsoft YaHei' !important;
+    letter-spacing: 1px;
+    cursor: pointer;
+    z-index: 1;
+    overflow: hidden;
+    transition: all 0.3s;
+    text-shadow: 0 0 5px currentColor;
+  }
+  
+  /* 霓虹光晕背景 */
+  .message-input-container .nav-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, 
+      #78e2d8, 
+      #ede2ab, 
+      #ca9dca, 
+      #e7998c);
+    background-size: 300% 300%;
+    border-radius: 30px;
+    z-index: -1;
+    animation: 
+      gradient-shift 4s ease infinite,
+      neon-pulse 2s ease infinite;
+  }
+  
+  /* 故障文字层 */
+  .message-input-container .nav-btn::after {
+    content: '发布留言';
+    position: absolute;
+    top: 12px;
+    left: 0;
+    width: 100%;
+    color: transparent;
+    text-shadow: 
+      -2px -2px 0 #00f0ff,
+      2px 2px 0 #ff00ff;
+    clip-path: inset(100% 0 0 0);
+  }
+  
+  /* 悬停特效 */
+  .message-input-container .nav-btn:hover {
+    transform: translateY(-3px) scale(1.05);
+  }
+  
+  .message-input-container .nav-btn:hover::before {
+    animation: 
+      gradient-shift 2s ease infinite,
+      neon-pulse 0.8s ease infinite,
+      border-flicker 1s steps(2) infinite;
+  }
+  
+  .message-input-container .nav-btn:hover::after {
+    animation: 
+      text-glitch 0.8s steps(2) infinite,
+      text-shake 0.3s linear infinite;
+  }
+  
+  /* 动画定义 */
+  @keyframes gradient-shift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  
+  @keyframes neon-pulse {
+    0%, 100% { box-shadow: 0 0 15px #d997e5, 0 0 30px rgba(141, 99, 149, 0.5); }
+    50% { box-shadow: 0 0 25px #a776a7, 0 0 50px rgba(209, 148, 209, 0.7); }
+  }
+  
+  @keyframes border-flicker {
+    0%, 100% { 
+      border: 2px solid #00f0ff;
+      filter: hue-rotate(0deg);
+    }
+    25% { 
+      border: 2px solid #bf81ca;
+      filter: hue-rotate(90deg);
+    }
+    50% { 
+      border: 2px solid #ff00ff;
+      filter: hue-rotate(180deg);
+    }
+    75% { 
+      border: 2px solid #00f0ff;
+      filter: hue-rotate(270deg);
+    }
+  }
+  
+  @keyframes text-glitch {
+    0% { clip-path: inset(80% 0 0 0); transform: translate(-5px, -3px); }
+    20% { clip-path: inset(20% 0 60% 0); transform: translate(4px, 3px); }
+    40% { clip-path: inset(50% 0 30% 0); transform: translate(-4px, 1px); }
+    60% { clip-path: inset(20% 0 60% 0); transform: translate(3px, -2px); }
+    80% { clip-path: inset(80% 0 5% 0); transform: translate(5px, -4px); }
+    100% { clip-path: inset(80% 0 0 0); transform: translate(0); }
+  }
+  
+  @keyframes text-shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-3px); }
+    75% { transform: translateX(3px); }
+  }
+  /* 瀑布流布局样式 */
+#hobby {
+    padding: 30px;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.masonry {
+    /* 创建多列瀑布流 */
+    column-count: 4;
+    column-gap: 20px;
+    
+    /* 兼容性处理 */
+    -webkit-column-count: 4;
+    -moz-column-count: 4;
+    -webkit-column-gap: 20px;
+    -moz-column-gap: 20px;
+}
+
+.item {
+    /* 确保项目不被分割 */
+    break-inside: avoid;
+    -webkit-column-break-inside: avoid;
+    page-break-inside: avoid;
+    
+    /* 视觉样式 */
+    margin-bottom: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    
+    /* 保持原有行内高度设置 */
+    display: inline-block;
+    width: 100%;
+}
+
+.item img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+/* 悬停效果 */
+.item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+}
+
+.item:hover img {
+    transform: scale(1.05);
+}
+
+/* 响应式布局 */
+@media (max-width: 1200px) {
+    .masonry {
+        column-count: 3;
+    }
+}
+
+@media (max-width: 800px) {
+    .masonry {
+        column-count: 2;
+    }
+}
+
+@media (max-width: 500px) {
+    .masonry {
+        column-count: 1;
+    }
+}
+/* 视频卡片样式 - 占满不缩放 */
+.wish-video {
+  position: relative;
+  padding: 0; /* 移除原有卡片内边距 */
+  overflow: hidden; /* 隐藏视频超出部分 */
+}
+
+.fullsize-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* 保持比例填满容器 */
+  display: block;
+}
+
+.video-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+  padding: 20px;
+  color: white;
+}
+
+/* 保持原有卡片高度 */
+.wish-video {
+  height: 450px; /* 与原有卡片高度一致 */
+}
+
+/* 移动端适配 */
+@media (max-width: 768px) {
+  .wish-video {
+      height: 450px;
+  }
+}
